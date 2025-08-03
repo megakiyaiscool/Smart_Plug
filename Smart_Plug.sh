@@ -37,7 +37,6 @@ while getopts ":t:h:u:p:r:" opt; do
         _TIMEOUT="${OPTARG}"
         ;;
     *)
-#        echo "Invalid option: -${OPTARG}."
         usage
         ;;
 esac
@@ -59,8 +58,6 @@ mosquitto_sub -h "$_BROKER" -u "$_USERNAME" -P "$_PASSWORD" -v -t "$_TOPIC/#" | 
 while read i;
 do
     declare -a ARRAY=($i)
-#    echo "length of array is: ${#ARRAY[@]}"
-#    echo "line: " "$ARRAY"
     mkdir -p "${ARRAY[0]}"
     echo "${ARRAY[1]}">"${ARRAY[0]}/value"
 done
