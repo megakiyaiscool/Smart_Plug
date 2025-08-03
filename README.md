@@ -1,5 +1,5 @@
 # Smart_Plug.sh
-  cli smart plug monitor for Open BK7231N firmware with power monitoring.
+  cli smart plug monitor for Open BK7231N firmware with power monitoring. ( https://github.com/openshwprojects/OpenBK7231T_App/releases )
   ## Summary:
 
 - The script spawns a background shell that invokes `mosquitto_sub` and creates an in memory directory structure of the "$_BROKER" "$_TOPIC".
