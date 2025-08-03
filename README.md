@@ -9,8 +9,9 @@
 
 ## Dependencys:
 - A smart plug connected to a mosquitto server
-  - server ref : https://mosquitto.org/download/
-  - firmware ref : https://github.com/openshwprojects/OpenBK7231T_App
+  - server ref : ( https://mosquitto.org/download/ )
+  - mqtt protocol ref: ( https://www.hivemq.com/blog/mqtt-essentials-part-1-introducing-mqtt/ )
+  - firmware ref : ( https://github.com/openshwprojects/OpenBK7231T_App )
   ```
   sudo apt install mosquitto
   ```
@@ -27,7 +28,7 @@
 ## Usage:
 Smart_Plug.sh -u [USERNAME] -p [PASSWORD] -h [MQTT HOST] -t [TOPIC] -r [REFRESH INTERVAL]
 
-Or edit the variables at the top of the shell script
+Or edit the variables at the top of the shell script and just call Smart_Plug.sh on its own.
 ```
 _BROKER="MQTT server IP address"
 _TOPIC="Sometimes called the client/base topic"
@@ -49,7 +50,7 @@ _TIMEOUT="Seconds to wait between refreshes"
         ```
         - ref: (https://zorruno.com/2022/zemismart-ks-811-with-openbk7231n-openbeken/)
         - OTA flash to latest firmware then connect to. (http://192.168.4.1/index) to configure
-    - https://www.elektroda.com/rtvforum/topic3951016.html
+        - https://www.elektroda.com/rtvforum/topic3951016.html
 
 - Smart Plug starup command
   `backlog startDriver NTP; SetupEnergyStats 1 60 60;addRepeatingEvent 60 -1 publishChannel 1;PowerSave 1;`
