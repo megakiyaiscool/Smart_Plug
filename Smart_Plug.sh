@@ -8,8 +8,7 @@ _TIMEOUT=""
 
 trap cleanup 1 2 3 6 15
 
-cleanup()
-{
+cleanup(){
     echo "Removing temporary files:"
     pkill -P "$(cat BASHPID)"
     cd "$XDG_RUNTIME_DIR"
