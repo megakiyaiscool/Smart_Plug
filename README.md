@@ -5,8 +5,8 @@ smartplug.sh -u [USERNAME] -p [PASSWORD] -h [MQTT HOST] -t [TOPIC] -r [REFRESH I
 smartplug.sh -c [FILE] -t [TOPIC] -r [REFRESH INTERVAL] \
 smartplug.sh -c [FILE]
 ## DESCRIPTION:
-- smartplug.sh spawns a background shell that invokes `mosquitto_sub` and creates an in memory directory structure of the "$_BROKER" "$_TOPIC".
-- The foreground process iterates over the directory structure and presents the current state of the smart plug. [enter] toggles the switch on/off. [ctrl+c} to exit
+1 smartplug.sh spawns a background shell that invokes `mosquitto_sub` and creates an in memory directory structure of the "$_BROKER" "$_TOPIC".
+2 The foreground process iterates over the directory structure and presents the current state of the smart plug. [enter] toggles the switch on/off. [ctrl+c} to exit
 > [!NOTE]
 > Later command line options will overide previous options. So you may connect to different topics by using the -t option after -c smartplug.conf. Or by leaving the $_TOPIC variable unset in the configuration file.
 <img alt="Smart_Plug sh" src="Smart_Plug.sh.png" />
@@ -27,19 +27,10 @@ If left unset will default to 10 seconds.
 
 -c [FILE] - Configuration file
 
-### smartplug.conf.example
-
-```
-_BROKER="localhost"
-_TOPIC="WH_AU_ME_01-Garage"
-_USERNAME="roger"
-_PASSWORD="RogersSuperSecretPassWord1234"
-_REFRESH="2"
-```
 ## EXAMPLES:
 
 ```
-smartplug.sh -t WH_AU_ME_01-02 -c smartplug.conf
+smartplug.sh -c smartplug.conf -t WH_AU_ME_01-Laundry
 ```
 ```
 smartplug.sh -c WH_AU_ME_01.conf
@@ -48,6 +39,17 @@ smartplug.sh -c WH_AU_ME_01.conf
 for file in WH_AU_ME_01*.conf; do gnome-terminal --hide-menubar --geometry=80x24 \
         -t "$file" -- smartplug.sh -c "$file" & done
 ```
+
+[smartplug.conf.example](smartplug.conf.example)
+
+```
+_BROKER="localhost"
+_TOPIC="WH_AU_ME_01-Garage"
+_USERNAME="roger"
+_PASSWORD="RogersSuperSecretPassWord1234"
+_REFRESH="2"
+```
+
 ## DEPENDENCIES:
 
 ### A smart plug connected to a mosquitto server and mosquitto_sub.
