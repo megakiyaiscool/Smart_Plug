@@ -16,20 +16,12 @@ smartplug.sh -c [FILE]
 
 ## OPTIONS:
 
--u  [USERNAME] \
-        Mosquitto server username.
--p  [PASSWORD] \
-        Mosquitto server password.
--h  [MQTT HOST] \
-        Mosquitto server hostname or IP address.
--t  [TOPIC] \
-        Mosquitto server topic to subscribe to.
--r  [REFRESH INTERVAL] \
-        Number of seconds between updates to the frontend. Also the interval \
-        between changing the switch state and updating the status ( round trip time ). \
-        If left unset will default to 10 seconds \
--c  [FILE] \
-Configuration file \
+-u  [USERNAME] \Mosquitto server username.
+-p  [PASSWORD] \Mosquitto server password.
+-h  [MQTT HOST] \Mosquitto server hostname or IP address.
+-t  [TOPIC] \Mosquitto server topic to subscribe to.
+-r  [REFRESH INTERVAL] \Number of seconds between updates to the frontend. Also the interval between changing the switch state and updating the status ( round trip time ). If left unset will default to 10 seconds \
+-c  [FILE] \Configuration file \
 ### smartplug.conf.example
 
 ```
@@ -85,8 +77,8 @@ $`for file in WH_AU_ME_01*.conf; do gnome-terminal --hide-menubar --geometry=80x
 
 - Smart Plug starup command
     `backlog startDriver NTP; SetupEnergyStats 1 60 60;addRepeatingEvent 60 -1 publishChannel 1;PowerSave 1;`
-    note the "addRepeatingEvent 60               -1         publishChannel 1"
-                ^repeat         ^every 60sec    ^ forever       ^send channel 1 to mqtt server
+> [!NOTE] "addRepeatingEvent 60               -1         publishChannel 1"
+>       ^repeat         ^every 60sec    ^ forever       ^send channel 1 to mqtt server
 ### Template:
 [WH_AU_ME_01.json](WH_AU_ME_01.json)
 ```
