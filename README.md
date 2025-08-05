@@ -4,33 +4,32 @@
 ## SYNOPSIS:
 smartplug.sh -u [USERNAME] -p [PASSWORD] -h [MQTT HOST] -t [TOPIC] -r [REFRESH INTERVAL] \
 smartplug.sh -c [FILE] -t [TOPIC] -r [REFRESH INTERVAL] \
-smartplug.sh -c [FILE] \
+smartplug.sh -c [FILE]
 ## DESCRIPTION:
 
 - smartplug.sh spawns a background shell that invokes `mosquitto_sub` and creates an in memory directory structure of the "$_BROKER" "$_TOPIC".
 - The foreground process iterates over the directory structure and presents the current state of the smart plug. [enter] toggles the switch on/off. [ctrl+c} to exit
 > [!NOTE]
-> Later command line options will overide previous options. So you can connect to different topics by using the -t option after -c smartplug.conf. Or by leaving the $_TOPIC variable unset in the configuration file.
+> Later command line options will overide previous options. So you may connect to different topics by using the -t option after -c smartplug.conf. Or by leaving the $_TOPIC variable unset in the configuration file.
 
 <img alt="Smart_Plug sh" src="Smart_Plug.sh.png" />
 
 ## OPTIONS:
 
--u  [USERNAME]
- - Mosquitto server username.
--p  [PASSWORD]
- - Mosquitto server password.
--h  [MQTT HOST]
- - Mosquitto server hostname or IP address.
--t  [TOPIC]
- - Mosquitto server topic to subscribe to.
--r  [REFRESH INTERVAL]
- - Number of seconds between updates to the frontend. Also the interval  
-between changing the switch state and updating the status ( round trip time ).  
-If left unset will default to 10 seconds
--c  [FILE]
- - Configuration file
-
+-u  [USERNAME] \
+        Mosquitto server username.
+-p  [PASSWORD] \
+        Mosquitto server password.
+-h  [MQTT HOST] \
+        Mosquitto server hostname or IP address.
+-t  [TOPIC] \
+        Mosquitto server topic to subscribe to.
+-r  [REFRESH INTERVAL] \
+        Number of seconds between updates to the frontend. Also the interval \
+        between changing the switch state and updating the status ( round trip time ). \
+        If left unset will default to 10 seconds \
+-c  [FILE] \
+Configuration file \
 ### smartplug.conf.example
 
 ```
