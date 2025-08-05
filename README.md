@@ -2,10 +2,9 @@
   cli smart plug monitor for Open BK7231N firmware with power monitoring. ( https://github.com/openshwprojects/OpenBK7231T_App/releases )
 
 ## SYNOPSIS:
-smartplug.sh -u [USERNAME] -p [PASSWORD] -h [MQTT HOST] -t [TOPIC] -r [REFRESH INTERVAL]
-smartplug.sh -c [FILE] -t [TOPIC] -r [REFRESH INTERVAL]
-smartplug.sh -c [FILE]
-
+smartplug.sh -u [USERNAME] -p [PASSWORD] -h [MQTT HOST] -t [TOPIC] -r [REFRESH INTERVAL] \
+smartplug.sh -c [FILE] -t [TOPIC] -r [REFRESH INTERVAL] \
+smartplug.sh -c [FILE] \
 ## DESCRIPTION:
 
 - smartplug.sh spawns a background shell that invokes `mosquitto_sub` and creates an in memory directory structure of the "$_BROKER" "$_TOPIC".
