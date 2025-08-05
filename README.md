@@ -12,7 +12,7 @@
 - The foreground process iterates over the directory structure and presents the current state of the smart plug. [enter] toggles the switch on/off. [ctrl+c} to exit
 - Later command line options will overide previous options. So you can connect to different topics by using the -t option after -c smartplug.conf. Or by leaving the $_TOPIC variable unset in the configuration file.
 
-<img alt="Smart_Plug sh" src="https://github.com/user-attachments/assets/f712cab1-9abd-4ee3-904c-1e7e95b2315e" />
+<img alt="Smart_Plug sh" src="Smart_Plug.sh.png" />
 
 ## OPTIONS:
 
