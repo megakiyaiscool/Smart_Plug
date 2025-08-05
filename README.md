@@ -10,7 +10,9 @@ smartplug.sh -c [FILE]
 > [!NOTE]
 > Later command line options will overide previous options. So you may connect to different topics by using the -t option after -c smartplug.conf. Or by leaving the $_TOPIC variable unset in the configuration file.
 <img alt="Smart_Plug sh" src="Smart_Plug.sh.png" />
+
 ## OPTIONS:
+
 -u [USERNAME] - Mosquitto server username. \
 -p [PASSWORD] - Mosquitto server password. \
 -h [MQTT HOST]- Mosquitto server hostname or IP address. \
@@ -19,7 +21,9 @@ smartplug.sh -c [FILE]
  the interval between changing the switch state and updating the status ( round trip time ). \
 If left unset will default to 10 seconds. \
 -c [FILE] - Configuration file
+
 ### smartplug.conf.example
+
 ```
 _BROKER="localhost"
 _TOPIC="WH_AU_ME_01-Garage"
@@ -28,6 +32,7 @@ _PASSWORD="RogersSuperSecretPassWord1234"
 _REFRESH="2"
 ```
 ## EXAMPLES:
+
 ```
 smartplug.sh -t WH_AU_ME_01-02 -c smartplug.conf
 ```
@@ -39,6 +44,7 @@ for file in WH_AU_ME_01*.conf; do gnome-terminal --hide-menubar --geometry=80x24
         -t "$file" -- smartplug.sh -c "$file" & done
 ```
 ## DEPENDENCIES:
+
 ### A smart plug connected to a mosquitto server and mosquitto_sub.
 - server ref : ( https://mosquitto.org/download/ )
 - mqtt protocol ref: ( https://www.hivemq.com/blog/mqtt-essentials-part-1-introducing-mqtt/ )
@@ -47,12 +53,14 @@ for file in WH_AU_ME_01*.conf; do gnome-terminal --hide-menubar --geometry=80x24
   sudo apt install mosquitto mosquitto-clients
 ```
 ### A temporary file system in ram.
+
 - $XDG_RUNTIME_DIR
 ```
   echo "$XDG_RUNTIME_DIR"
 ```
 "/run/user/????" ... should be set up by systemd ?
 ## Tested with:
+
 - Smart Plug
   - Model: Smart Plug 16A Model:WHDZ01 Board:WH_AU_ME_01
 - Firmware: OpenBK7231N_QIO_1.18.141.bin
