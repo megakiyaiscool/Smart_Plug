@@ -2,34 +2,35 @@
   cli smart plug monitor for Open BK7231N firmware with power monitoring. ( https://github.com/openshwprojects/OpenBK7231T_App/releases )
 
 ## SYNOPSIS:
-    smartplug.sh -u [USERNAME] -p [PASSWORD] -h [MQTT HOST] -t [TOPIC] -r [REFRESH INTERVAL]
-    smartplug.sh -c [FILE] -t [TOPIC] -r [REFRESH INTERVAL]
-    smartplug.sh -c [FILE]
+smartplug.sh -u [USERNAME] -p [PASSWORD] -h [MQTT HOST] -t [TOPIC] -r [REFRESH INTERVAL]
+smartplug.sh -c [FILE] -t [TOPIC] -r [REFRESH INTERVAL]
+smartplug.sh -c [FILE]
 
 ## DESCRIPTION:
 
 - smartplug.sh spawns a background shell that invokes `mosquitto_sub` and creates an in memory directory structure of the "$_BROKER" "$_TOPIC".
 - The foreground process iterates over the directory structure and presents the current state of the smart plug. [enter] toggles the switch on/off. [ctrl+c} to exit
-- Later command line options will overide previous options. So you can connect to different topics by using the -t option after -c smartplug.conf. Or by leaving the $_TOPIC variable unset in the configuration file.
+> [!NOTE]
+> Later command line options will overide previous options. So you can connect to different topics by using the -t option after -c smartplug.conf. Or by leaving the $_TOPIC variable unset in the configuration file.
 
 <img alt="Smart_Plug sh" src="Smart_Plug.sh.png" />
 
 ## OPTIONS:
 
-    -u  [USERNAME]
-            Mosquitto server username.
-    -p  [PASSWORD]
-            Mosquitto server password.
-    -h  [MQTT HOST]
-            Mosquitto server hostname or IP address.
-    -t  [TOPIC]
-            Mosquitto server topic to subscribe to.
-    -r  [REFRESH INTERVAL]
-            Number of seconds between updates to the frontend. Also the interval
-            between changing the switch state and updating the status ( round trip time ).
-            If left unset will default to 10 seconds
-    -c  [FILE]
-            Configuration file
+-u  [USERNAME]
+ - Mosquitto server username.
+-p  [PASSWORD]
+ - Mosquitto server password.
+-h  [MQTT HOST]
+ - Mosquitto server hostname or IP address.
+-t  [TOPIC]
+ - Mosquitto server topic to subscribe to.
+-r  [REFRESH INTERVAL]
+ - Number of seconds between updates to the frontend. Also the interval  
+between changing the switch state and updating the status ( round trip time ).  
+If left unset will default to 10 seconds
+-c  [FILE]
+ - Configuration file
 
 ### smartplug.conf.example
 
@@ -41,33 +42,33 @@ _PASSWORD="RogersSuperSecretPassWord1234"
 _REFRESH="2"
 ```
 
-## EXAMPLE:
+## EXAMPLES:
 
-    $`smartplug.sh -t WH_AU_ME_01-02 -c smartplug.conf`
+$`smartplug.sh -t WH_AU_ME_01-02 -c smartplug.conf`
 
-    $`smartplug.sh -c WH_AU_ME_01.conf`
+$`smartplug.sh -c WH_AU_ME_01.conf`
 
-    $`for file in WH_AU_ME_01*.conf; do gnome-terminal --hide-menubar --geometry=80x24 \
+$`for file in WH_AU_ME_01*.conf; do gnome-terminal --hide-menubar --geometry=80x24 \
         -t "$file" -- smartplug.sh -c "$file" & done`
 
-## DEPENDENCYS:
+## DEPENDENCIES:
 
 ### A smart plug connected to a mosquitto server and mosquitto_sub.
 
-        - server ref : ( https://mosquitto.org/download/ )
-        - mqtt protocol ref: ( https://www.hivemq.com/blog/mqtt-essentials-part-1-introducing-mqtt/ )
-        - firmware ref : ( https://github.com/openshwprojects/OpenBK7231T_App )
+- server ref : ( https://mosquitto.org/download/ )
+- mqtt protocol ref: ( https://www.hivemq.com/blog/mqtt-essentials-part-1-introducing-mqtt/ )
+- firmware ref : ( https://github.com/openshwprojects/OpenBK7231T_App )
 ```
   sudo apt install mosquitto mosquitto-clients
 ```
 
 ### A temporary file system in ram.
 
-        - $XDG_RUNTIME_DIR
+- $XDG_RUNTIME_DIR
 ```
   echo "$XDG_RUNTIME_DIR"
 ```
-        "/run/user/????" ... should be set up by systemd ?
+"/run/user/????" ... should be set up by systemd ?
 
 ## Tested with:
 
@@ -88,8 +89,8 @@ _REFRESH="2"
     `backlog startDriver NTP; SetupEnergyStats 1 60 60;addRepeatingEvent 60 -1 publishChannel 1;PowerSave 1;`
     note the "addRepeatingEvent 60               -1         publishChannel 1"
                 ^repeat         ^every 60sec    ^ forever       ^send channel 1 to mqtt server
-  Template:
-[WH_AU_ME_01.json](https://github.com/user-attachments/files/21564964/WH_AU_ME_01.json)
+### Template:
+[WH_AU_ME_01.json](WH_AU_ME_01.json)
 ```
 {
   "vendor": "Tuya",
