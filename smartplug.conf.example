@@ -1,0 +1,7 @@
+### smartplug.sh configuration file ###
+
+_BROKER="localhost"
+_TOPIC="WH_AU_ME_01-Garage"
+_USERNAME="roger"
+_PASSWORD="RogersSuperSecretPassWord1234"
+_REFRESH="2"

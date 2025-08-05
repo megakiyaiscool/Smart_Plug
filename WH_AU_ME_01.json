@@ -1,0 +1,25 @@
+{
+  "vendor": "Tuya",
+  "bDetailed": "0",
+  "name": "Smart Plug 16A",
+  "model": "WHDZ01",
+  "chip": "BK7231N",
+  "board": "WH_AU_ME_01",
+  "flags": "1024",
+  "keywords": [
+    "BK7231N",
+    "WH_AU_ME_01",
+    "WHDZ01"
+  ],
+  "pins": {
+    "6": "BL0937CF1;0",
+    "7": "BL0937CF;0",
+    "8": "WifiLED_n;0",
+    "11": "Btn;1",
+    "24": "BL0937SEL;0",
+    "26": "Rel;1"
+  },
+  "command": "backlog startDriver NTP; SetupEnergyStats 1 60 60;addRepeatingEvent 60 -1 publishChannel 1;PowerSave 1;",
+  "image": "https://obrazki.elektroda.pl/YOUR_IMAGE.jpg",
+  "wiki": "https://www.elektroda.com/rtvforum/topic_YOUR_TOPIC.html"
+}

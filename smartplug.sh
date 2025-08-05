@@ -1,11 +1,5 @@
 #!/bin/bash
 
-_BROKER=""
-_TOPIC=""
-_USERNAME=""
-_PASSWORD=""
-_TIMEOUT=""
-
 trap cleanup 1 2 3 6 15
 
 cleanup(){
@@ -16,10 +10,38 @@ cleanup(){
     exit 0
 }
 
-usage() { echo -e "\nUsage: -u [USERNAME] -p [PASSWORD] -h [MQTT HOST] -t [TOPIC] -r [REFRESH INTERVAL]\n" 1>&2; exit 1; 
+usage(){
+echo -e "smartplug.sh
+
+    Usage:
+
+    smartplug.sh -u [USERNAME] -p [PASSWORD] -h [MQTT HOST] -t [TOPIC] -r [REFRESH INTERVAL]
+    smartplug.sh -c [FILE] -t [TOPIC] -r [REFRESH INTERVAL]
+    smartplug.sh -c [FILE]
+
+    -u  [USERNAME]
+            Mosquitto server username.
+
+    -p  [PASSWORD]
+
+            Mosquitto server password.
+    -h  [MQTT HOST]
+            Mosquitto server hostname or IP address.
+
+    -t  [TOPIC]
+            Mosquitto server topic to subscribe to.
+
+    -r  [REFRESH INTERVAL]
+            Number of seconds between updates to the frontend. Also the interval
+            between changing the switch state and updating the status ( round trip time ).
+            If left unset will default to 10 seconds
+
+    -c  [FILE]
+            Configuration file
+" 1>&2; exit 1;
 }
 
-while getopts ":t:h:u:p:r:" opt; do
+while getopts ":c:h:u:p:r:t:" opt; do
     case ${opt} in
     t)
         _TOPIC="${OPTARG}"
@@ -34,7 +56,10 @@ while getopts ":t:h:u:p:r:" opt; do
         _PASSWORD="${OPTARG}"
         ;;
     r)
-        _TIMEOUT="${OPTARG}"
+        _REFRESH="${OPTARG}"
+        ;;
+    c)
+        . "${OPTARG}"
         ;;
     *)
         usage
@@ -42,15 +67,16 @@ while getopts ":t:h:u:p:r:" opt; do
 esac
 done
 
-if [ -z "$_TIMEOUT" ]; then
-    _TIMEOUT=10
+if [ -z "$_REFRESH" ]; then
+    _REFRESH=10
 fi
 
-mosquitto_sub -h "$_BROKER" -u "$_USERNAME" -P "$_PASSWORD" -t "$_TOPIC/#" -C 1 -W "$_TIMEOUT" || usage
+mosquitto_sub -h "$_BROKER" -u "$_USERNAME" -P "$_PASSWORD" -t "$_TOPIC/#" -C 1 -W "$_REFRESH" || usage
 
 WORKING_DIR=$( mktemp -d --tmpdir="$XDG_RUNTIME_DIR" )
 cd "$WORKING_DIR"
 
+# Spawn background process.
 (
 echo "$BASHPID">BASHPID
 mosquitto_sub -h "$_BROKER" -u "$_USERNAME" -P "$_PASSWORD" -v -t "$_TOPIC/#" | \
@@ -63,6 +89,7 @@ do
 done
 ) &
 
+# Read a "normal" value from the subshe directory.
 _mqtt(){
 if [ -e "$_TOPIC/$1/get/value" ];then
     VALUE=$( cat "$_TOPIC/$1/get/value" )
@@ -72,6 +99,7 @@ fi
 echo "$1:$VALUE"
 }
 
+# Reports the actual switch status.
 _status(){ 
 STATUS=$( cat "$_TOPIC/$1/get/value" 2>&1 )
 if [ "$STATUS" == "1" ]; then
@@ -84,6 +112,7 @@ fi
 echo -e "status:$STATUS"
 }
 
+# Formats the date so that it doesnt get mangled by | column.
 _date(){
 if [ -e "$_TOPIC/$1/get/value" ];then
     VALUE=$( date -d $( cat "$_TOPIC/$1/get/value" ) "+%Y-%m-%d %H-%M-%S" )
@@ -93,15 +122,17 @@ fi
 echo "$1:$VALUE"
 }
 
+# Construct and format the page.
 _report(){
 echo -e "\e[0;37m"$(date)
-echo -e "MQTT IP:$_BROKER\nMQTT TOPIC:$_TOPIC" | column -t -s ':'
+echo -e "MQTT HOST:$_BROKER\nMQTT TOPIC:$_TOPIC\n$ED::" | column -t -s ':'
 echo -e "\e[1;37m"
-echo -e "$( cat "$_TOPIC/connected/value" 2>/dev/null ) ... update interval "$_TIMEOUT sec"\n"
-echo -e "$S::$ED\n$V::$E\n$C::$EH\n$P::$ET\n:::\n$PA::$EY\n$PR::$E2\n$PF::$E3\n" | column -t -s ':'
+echo -e "$( cat "$_TOPIC/connected/value" 2>/dev/null ) ... update interval "$_REFRESH sec"\n"
+echo -e "$S:::\n$V::$E\n$C::$EH\n$P::$ET\n:::\n$PA::$EY\n$PR::$E2\n$PF::$E3\n" | column -t -s ':'
 echo ""
 }
 
+# Call for the variables that we want in the page.
 _get(){
 O=$( _mqtt connected )
 S=$( _status 1 )
@@ -122,11 +153,13 @@ E2=$( _mqtt energycounter_2_days_ago )
 E3=$( _mqtt energycounter_3_days_ago )
 }
 
+# Main loop
 while [ true ];do
     clear
     _get
     _report
-    read -t "$_TIMEOUT" -p "Hit ENTER to toggle switch ON/OFF"
+    echo -e -n " \e[0;37mHit \e[1;37m[ENTER]\e[0;37m to toggle switch ON/OFF    \e[1;37m[Ctrl+C]\e[0;37m to exit"
+    read -t "$_REFRESH"
     ERROR=$?
     if [ "$ERROR" -eq "0" ];then
         if [ "$( cat "$_TOPIC/1/get/value" 2>&1 )" == "1" ];then
@@ -136,7 +169,7 @@ while [ true ];do
             echo -e "\nsending switch on ...."
             mosquitto_pub -h "$_BROKER" -u "$_USERNAME" -P "$_PASSWORD" -t "$_TOPIC/1/set" -m 1
         fi
-        sleep "$_TIMEOUT"
+        sleep "$_REFRESH"
     fi
 done
 
