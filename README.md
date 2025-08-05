@@ -16,12 +16,19 @@ smartplug.sh -c [FILE]
 
 ## OPTIONS:
 
--u  [USERNAME] \Mosquitto server username.
--p  [PASSWORD] \Mosquitto server password.
--h  [MQTT HOST] \Mosquitto server hostname or IP address.
--t  [TOPIC] \Mosquitto server topic to subscribe to.
--r  [REFRESH INTERVAL] \Number of seconds between updates to the frontend. Also the interval between changing the switch state and updating the status ( round trip time ). If left unset will default to 10 seconds \
--c  [FILE] \Configuration file \
+-u [USERNAME]
+   - Mosquitto server username.
+-p [PASSWORD]
+   - Mosquitto server password.
+-h [MQTT HOST]
+   - Mosquitto server hostname or IP address.
+-t [TOPIC]
+   - Mosquitto server topic to subscribe to.
+-r [REFRESH INTERVAL]
+   - Number of seconds between updates to the frontend. Also the interval between \
+changing the switch state and updating the status ( round trip time ). \If left unset will default to 10 seconds.
+-c [FILE]
+   - Configuration file
 ### smartplug.conf.example
 
 ```
@@ -63,22 +70,25 @@ $`for file in WH_AU_ME_01*.conf; do gnome-terminal --hide-menubar --geometry=80x
 ## Tested with:
 
 - Smart Plug
-    - Rpi-3b+ for Uart connection to CB2S module 
-    - Model: WH_AU_ME_01
-    - Firmware: Built on Jul 31 2025 06:25:31 version 1.18.144
-        - File: OpenBK7231N_1.18.144.rbl ( OTA )
-        - CB2S module removed from board to program with
-        ```
-        python uartprogram OpenBK7231N_QIO_1.18.141.bin -u -b 115200 -d /dev/serial0  -w -s 0x0
-        ```
-        - uartprogram (https://zorruno.com/2022/zemismart-ks-811-with-openbk7231n-openbeken/)
-        - Connect to. (http://192.168.4.1/index) to configure and OTA flash to latest firmware 
-        - forum thread (https://www.elektroda.com/rtvforum/topic3951016.html) with youtube tutorials.
+  - Rpi-3b+ for Uart connection to CB2S module 
+  - Model: WH_AU_ME_01
+  - Firmware: Built on Jul 31 2025 06:25:31 version 1.18.144
+    - File: OpenBK7231N_1.18.144.rbl ( OTA )
+    - CB2S module removed from board to program with
+    ```
+    python uartprogram OpenBK7231N_QIO_1.18.141.bin -u -b 115200 -d /dev/serial0  -w -s 0x0
+    ```
+    - uartprogram (https://zorruno.com/2022/zemismart-ks-811-with-openbk7231n-openbeken/)
+    - Connect to. (http://192.168.4.1/index) to configure and OTA flash to latest firmware 
+    - forum thread (https://www.elektroda.com/rtvforum/topic3951016.html) with youtube tutorials.
 
 - Smart Plug starup command
-    `backlog startDriver NTP; SetupEnergyStats 1 60 60;addRepeatingEvent 60 -1 publishChannel 1;PowerSave 1;`
-> [!NOTE] "addRepeatingEvent 60               -1         publishChannel 1"
->       ^repeat         ^every 60sec    ^ forever       ^send channel 1 to mqtt server
+```
+backlog startDriver NTP; SetupEnergyStats 1 60 60;addRepeatingEvent 60 -1 publishChannel 1;PowerSave 1;
+```
+> [!NOTE] 
+> "addRepeatingEvent 60               -1         publishChannel 1" \
+>________^repeat_____^every 60sec_____^ forever_____^send channel 1 to mqtt server
 ### Template:
 [WH_AU_ME_01.json](WH_AU_ME_01.json)
 ```
