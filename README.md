@@ -6,8 +6,8 @@ smartplug.sh -u [USERNAME] -p [PASSWORD] -h [MQTT HOST] -t [TOPIC] -r [REFRESH I
 smartplug.sh -c [FILE] -t [TOPIC] -r [REFRESH INTERVAL] \
 smartplug.sh -c [FILE]
 ## DESCRIPTION:
-1 smartplug.sh spawns a background shell that invokes `mosquitto_sub` and creates an in memory directory structure of the "$_BROKER" "$_TOPIC".
-2 The foreground process iterates over the directory structure and presents the current state of the smart plug. [enter] toggles the switch on/off. [ctrl+c} to exit
+1. smartplug.sh spawns a background shell that invokes `mosquitto_sub` and creates an in memory directory structure of the "$_BROKER" "$_TOPIC".
+2. The foreground process iterates over the directory structure and presents the current state of the smart plug. [enter] toggles the switch on/off. [ctrl+c} to exit
 > [!NOTE]
 > Later command line options will overide previous options. So you may connect to different topics by using the -t option after -c smartplug.conf. Or by leaving the $_TOPIC variable unset in the configuration file.
 <img alt="Smart_Plug sh" src="Smart_Plug.sh.png" />
