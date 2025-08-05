@@ -1,5 +1,6 @@
 ## smartplug.sh
-  command line smart plug monitor for Open BK7231N firmware with power monitoring. ( https://github.com/openshwprojects/OpenBK7231T_App/releases )
+View power usage from the terminal so you know when the washing is done or turn on the jug before smoko.
+Command line smart plug monitor for Open BK7231N firmware with power monitoring. ( https://github.com/openshwprojects/OpenBK7231T_App/releases )
 ## SYNOPSIS:
 smartplug.sh -u [USERNAME] -p [PASSWORD] -h [MQTT HOST] -t [TOPIC] -r [REFRESH INTERVAL] \
 smartplug.sh -c [FILE] -t [TOPIC] -r [REFRESH INTERVAL] \
