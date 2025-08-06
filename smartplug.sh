@@ -115,17 +115,17 @@ echo -e "status:$STATUS"
 # Formats the date so that it doesnt get mangled by | column.
 _date(){
 if [ -e "$_TOPIC/$1/get/value" ];then
-    VALUE=$( date -d $( cat "$_TOPIC/$1/get/value" ) "+%Y-%m-%d %H-%M-%S" )
+    VALUE=$( date -d $( cat "$_TOPIC/$1/get/value" ) "+%d/%m/%Y %H:%M:%S" )
     else
     VALUE="\e[0;37mWaiting\e[1;37m"
 fi
-echo "$1:$VALUE"
+echo "$1%$VALUE"
 }
 
 # Construct and format the page.
 _report(){
 echo -e "\e[0;37m"$(date)
-echo -e "MQTT HOST:$_BROKER\nMQTT TOPIC:$_TOPIC\n$ED::" | column -t -s ':'
+echo -e "MQTT HOST%$_BROKER\nMQTT TOPIC%$_TOPIC\n$ED%%" | column -t -s '%'
 echo -e "\e[1;37m"
 echo -e "$( cat "$_TOPIC/connected/value" 2>/dev/null ) ... update interval "$_REFRESH sec"\n"
 echo -e "$S:::\n$V::$E\n$C::$EH\n$P::$ET\n:::\n$PA::$EY\n$PR::$E2\n$PF::$E3\n" | column -t -s ':'
