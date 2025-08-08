@@ -61,6 +61,12 @@ while getopts ":c:h:u:p:r:t:" opt; do
     c)
         . "${OPTARG}"
         ;;
+    agt)
+        _AGT="${OPTARG}"
+        ;;
+    alt)
+        _ALT="${OPTARG}"
+        ;;
     *)
         usage
         ;;
@@ -91,7 +97,7 @@ done
 
 # Read a "normal" value from the subshe directory.
 _mqtt(){
-if [ -e "$_TOPIC/$1/get/value" ];then
+if [ -f "$_TOPIC/$1/get/value" ];then
     VALUE=$( cat "$_TOPIC/$1/get/value" )
     else
     VALUE="\e[0;37mWaiting\e[1;37m"
@@ -100,12 +106,14 @@ echo "$1:$VALUE"
 }
 
 # Reports the actual switch status.
-_status(){ 
-STATUS=$( cat "$_TOPIC/$1/get/value" 2>&1 )
-if [ "$STATUS" == "1" ]; then
-    STATUS="\e[1;32mON\e[1;37m"
-elif [ "$STATUS" == "0" ]; then
-    STATUS="\e[0;31mOFF\e[1;37m"
+_status(){
+if [ -f "$_TOPIC/$1/get/value" ];then
+    STATUS=$( cat "$_TOPIC/$1/get/value" )
+    if [ "$STATUS" == "1" ]; then
+        STATUS="\e[1;32mON\e[1;37m"
+    elif [ "$STATUS" == "0" ]; then
+        STATUS="\e[0;31mOFF\e[1;37m"
+    fi
 else
     STATUS="\e[0;37mWaiting\e[1;37m"
 fi
@@ -114,21 +122,40 @@ echo -e "status:$STATUS"
 
 # Formats the date so that it doesnt get mangled by | column.
 _date(){
-if [ -e "$_TOPIC/$1/get/value" ];then
-    VALUE=$( date -d $( cat "$_TOPIC/$1/get/value" ) "+%d/%m/%Y %H:%M:%S" )
+if [ -f "$_TOPIC/$1/get/value" ];then
+    VALUE=$( date -d $( cat "$_TOPIC/$1/get/value" ) )
     else
     VALUE="\e[0;37mWaiting\e[1;37m"
 fi
 echo "$1%$VALUE"
 }
 
+_check(){
+if [ -f "$_TOPIC/current/get/value" ]; then
+    CURRENT=$( cat "$_TOPIC/current/get/value" )
+    if (( $( echo "$CURRENT > $_AGT" | bc ) )) ; then
+        _alarm "\e[0;31m$CURRENT\e[1;37m"
+    fi
+    if (( $( echo "$CURRENT < $_ALT" | bc ) )) ; then
+        _alarm "\e[0;31m$CURRENT\e[1;37m"
+    fi   
+else
+    CURRENT="\e[0;37mWaiting\e[1;37m"
+    ALARM="$_ALT > $CURRENT > $_AGT"
+fi
+}
+
+_alarm(){
+ALARM="$_ALT > \e[0;31m$CURRENT\e[1;37m > $_AGT"
+}
+
 # Construct and format the page.
 _report(){
-echo -e "\e[0;37m"$(date)
+echo -e "\e[0;37m              "$(date)"\n"
 echo -e "MQTT HOST%$_BROKER\nMQTT TOPIC%$_TOPIC\n$ED%%" | column -t -s '%'
 echo -e "\e[1;37m"
 echo -e "$( cat "$_TOPIC/connected/value" 2>/dev/null ) ... update interval "$_REFRESH sec"\n"
-echo -e "$S:::\n$V::$E\n$C::$EH\n$P::$ET\n:::\n$PA::$EY\n$PR::$E2\n$PF::$E3\n" | column -t -s ':'
+echo -e "$S::$ALARM\n$V::$E\n$C::$EH\n$P::$ET\n:::\n$PA::$EY\n$PR::$E2\n$PF::$E3\n" | column -t -s ':'
 echo ""
 }
 
@@ -157,6 +184,7 @@ E3=$( _mqtt energycounter_3_days_ago )
 while [ true ];do
     clear
     _get
+    _check
     _report
     echo -e -n " \e[0;37mHit \e[1;37m[ENTER]\e[0;37m to toggle switch ON/OFF    \e[1;37m[Ctrl+C]\e[0;37m to exit"
     read -t "$_REFRESH"
@@ -171,6 +199,7 @@ while [ true ];do
         fi
         sleep "$_REFRESH"
     fi
+    ALARM="$_ALT > $CURRENT > $_AGT"
 done
 
 exit 0
